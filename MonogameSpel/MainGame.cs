@@ -19,8 +19,6 @@ namespace MonogameSpel
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = @"Content\bin";
-            
-            
         }
         
         protected override void Initialize()

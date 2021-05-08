@@ -39,8 +39,8 @@ namespace MonogameSpel.GameStates
             sourceRectangles = new Rectangle[4];
             sourceRectangles[0] = new Rectangle(0, 0, 102, 42);
             sourceRectangles[1] = new Rectangle(102, 0, 102, 42);
-            sourceRectangles[2] = new Rectangle(0, 42, 102, 42);
-            sourceRectangles[3] = new Rectangle(102, 42, 102, 42);
+            sourceRectangles[2] = new Rectangle(102, 42, 102, 42);
+            sourceRectangles[3] = new Rectangle(0, 42, 102, 42);
         }
 
         public override void UnloadContent()
@@ -64,6 +64,19 @@ namespace MonogameSpel.GameStates
                 if(buttonSelect < 1) buttonSelect++;
                 Console.WriteLine(buttonSelect);
             }
+
+            if (Keyboard.HasBeenPressed(Keys.Enter))
+            {
+                Console.WriteLine("KeyEnter");
+                if (buttonSelect == 0)
+                {
+                    Console.WriteLine("StartGame");
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -74,8 +87,8 @@ namespace MonogameSpel.GameStates
             
             spriteBatch.Draw(flowerTexture,  new Rectangle(352,32,448,448), Color.White);
             spriteBatch.DrawString(font, ", h N m l", new Vector2(70f,40f), Color.MintCream, 0, new Vector2(1f,1f), 2.5f, SpriteEffects.None, 0.5f);
-            spriteBatch.Draw(menuButtons, new Rectangle(100,190, 255,105), sourceRectangles[0],Color.White);
-            spriteBatch.Draw(menuButtons, new Rectangle(100,320,255,105), sourceRectangles[3], Color.White);
+            spriteBatch.Draw(menuButtons, new Rectangle(100,190, 255,105), sourceRectangles[buttonSelect],Color.White);
+            spriteBatch.Draw(menuButtons, new Rectangle(100,320,255,105), sourceRectangles[buttonSelect + 2], Color.White);
             
             spriteBatch.End();
         }
