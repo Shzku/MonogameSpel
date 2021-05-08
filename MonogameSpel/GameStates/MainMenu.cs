@@ -21,7 +21,6 @@ namespace MonogameSpel.GameStates
         
         public MainMenu(GraphicsDevice graphicsDevice) : base(graphicsDevice)
         {
-            //var startButton = new Button( );
             
         }
 
@@ -71,6 +70,7 @@ namespace MonogameSpel.GameStates
                 if (buttonSelect == 0)
                 {
                     Console.WriteLine("StartGame");
+                    GameStateManager.Instance.ChangeScreen(new MainGame(_graphicsDevice));
                 }
                 else
                 {

@@ -12,8 +12,6 @@ namespace MonogameSpel
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        
         
         public MainGame ()
         {
@@ -30,7 +28,8 @@ namespace MonogameSpel
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             GameStateManager.Instance.SetContent(Content);
-            GameStateManager.Instance.AddScreen(new MainMenu(GraphicsDevice));
+            GameStateManager.Instance.AddScreen(new GameStates.MainMenu(GraphicsDevice));
+            //GameStateManager.Instance.AddScreen(new GameStates.MainGame(GraphicsDevice));
         }
         
         protected override void UnloadContent()
@@ -41,8 +40,6 @@ namespace MonogameSpel
         protected override void Update(GameTime gameTime)
         {
             GameStateManager.Instance.Update(gameTime);
-
-            
             
             base.Update(gameTime);
         }
