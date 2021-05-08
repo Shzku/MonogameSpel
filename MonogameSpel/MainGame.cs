@@ -13,7 +13,7 @@ namespace MonogameSpel
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private int buttonSelect = 0;
+        
         
         public MainGame ()
         {
@@ -44,15 +44,7 @@ namespace MonogameSpel
         {
             GameStateManager.Instance.Update(gameTime);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                Console.WriteLine("KeyUp");
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                Console.WriteLine("KeyDown");
-            }
+            
             
             base.Update(gameTime);
         }
