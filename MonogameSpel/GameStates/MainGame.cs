@@ -6,8 +6,12 @@ namespace MonogameSpel.GameStates
 {
     public class MainGame : GameState
     {
+        private Color dBlue = new Color(17, 20, 25, 255);
+        
+        private Player _player;
         public MainGame(GraphicsDevice graphicsDevice) : base(graphicsDevice)
         {
+            _player = new Player();
         }
 
         public override void Initialize()
@@ -16,6 +20,7 @@ namespace MonogameSpel.GameStates
 
         public override void LoadContent(ContentManager content)
         {
+            _player.LoadContent(content);
         }
 
         public override void UnloadContent()
@@ -28,10 +33,9 @@ namespace MonogameSpel.GameStates
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //_graphicsDevice.Clear(Color.Aquamarine);
-            
-            //spriteBatch.Begin();
-            //spriteBatch.End();
+            _graphicsDevice.Clear(dBlue);
+
+            _player.Draw(spriteBatch);
         }
     }
 }

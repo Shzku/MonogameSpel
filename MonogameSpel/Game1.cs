@@ -28,8 +28,7 @@ namespace MonogameSpel
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             GameStateManager.Instance.SetContent(Content);
-            GameStateManager.Instance.AddScreen(new GameStates.MainMenu(GraphicsDevice));
-            //GameStateManager.Instance.AddScreen(new GameStates.MainGame(GraphicsDevice));
+            GameStateManager.Instance.AddScreen(new MainMenu(GraphicsDevice));
         }
         
         protected override void UnloadContent()
