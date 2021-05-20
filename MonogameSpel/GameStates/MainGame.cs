@@ -9,7 +9,7 @@ namespace MonogameSpel.GameStates
         private Color dBlue = new Color(17, 20, 25, 255);
         
         private Player _player;
-        private Enemy[] _enemies;
+        public Enemy[] _enemies;
         public MainGame(GraphicsDevice graphicsDevice) : base(graphicsDevice)
         {
             _player = new Player();
