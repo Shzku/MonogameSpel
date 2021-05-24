@@ -12,7 +12,7 @@ namespace MonogameSpel
         private readonly int _spriteHeight;
         private readonly int _spriteWidth;
 
-        private readonly Rectangle _hitbox;
+        public Rectangle Hitbox;
         
         private Texture2D _enemySprite;
         public Enemy(int posY)
@@ -23,7 +23,7 @@ namespace MonogameSpel
             _spriteHeight = 62;
             _spriteWidth = 39;
             
-            _hitbox = new Rectangle(_posX, _posY, _spriteWidth, _spriteHeight);
+            Hitbox = new Rectangle(_posX, _posY, _spriteWidth, _spriteHeight*2);
         }
         
         public void LoadContent(ContentManager content)

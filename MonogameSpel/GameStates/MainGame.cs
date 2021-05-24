@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
 
 namespace MonogameSpel.GameStates
 {
@@ -8,27 +11,37 @@ namespace MonogameSpel.GameStates
     {
         private Color dBlue = new Color(17, 20, 25, 255);
         
-        private Player _player;
-        public Enemy[] _enemies;
+        public Player player;
+        public List<Enemy> Enemies;
+
+        private Texture2D pixel;
+
+        public GraphicsDevice graphics;
         public MainGame(GraphicsDevice graphicsDevice) : base(graphicsDevice)
         {
-            _player = new Player();
-            _enemies = new Enemy[3];
+            graphics = graphicsDevice;
+            
+            player = new Player(this);
+            Enemies = new List<Enemy>();
+            
+            pixel = new Texture2D(graphicsDevice, 1, 1);
+            pixel.SetData<Color>(new Color[] { Color.White });
         }
 
         public override void Initialize()
         {
-            _enemies[0] = new Enemy(10);
-            _enemies[1] = new Enemy(175);
-            _enemies[2] = new Enemy(350);
+            Enemies.Add(new Enemy(10));
+            Enemies.Add(new Enemy(175));
+            Enemies.Add(new Enemy(350));
         }
 
         public override void LoadContent(ContentManager content)
         {
-            _player.LoadContent(content);
-            _enemies[0].LoadContent(content);
-            _enemies[1].LoadContent(content);
-            _enemies[2].LoadContent(content);
+            player.LoadContent(content);
+            foreach (var enemy in Enemies)
+            {
+                enemy.LoadContent(content);
+            }
         }
 
         public override void UnloadContent()
@@ -37,20 +50,43 @@ namespace MonogameSpel.GameStates
 
         public override void Update(GameTime gameTime)
         {
-            _player.Update(gameTime);
-            _enemies[0].Update(gameTime);
-            _enemies[1].Update(gameTime);
-            _enemies[2].Update(gameTime);
+            player.Update(gameTime);
+            foreach (var enemy in Enemies)
+            {
+                enemy.Update(gameTime);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             _graphicsDevice.Clear(dBlue);
-            
-            _enemies[0].Draw(spriteBatch);
-            _enemies[1].Draw(spriteBatch);
-            _enemies[2].Draw(spriteBatch);
-            _player.Draw(spriteBatch);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(pixel, player._hitBox, Color.Orange);
+            spriteBatch.End();
+
+            foreach (var enemy in Enemies)
+            {
+                enemy.Draw(spriteBatch);
+            }
+            player.Draw(spriteBatch);
+        }
+
+        public void PlayerAttack()
+        {
+            foreach (var i in Enemies)
+            {
+                if (new Rectangle(player._hitBox.Right, player._hitBox.Center.Y,player._hitBox.Width,0).Intersects(i.Hitbox))
+                {
+                    Console.WriteLine("Hit Enemy");
+                    Enemies.Remove(i);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("No Kill");
+                }
+            }
         }
     }
 }

@@ -9,31 +9,39 @@ namespace MonogameSpel
 {
     public class Player
     {
-        private int PosX;
-        private int PosY;
+        public int PosX;
+        public int PosY;
 
         private readonly int spriteHeight;
         private readonly int spriteWidth;
         
         private Texture2D playerSprite;
         private Rectangle[] _sourceRectangles;
-        private Rectangle _hitBox;
+        
+        public Rectangle _hitBox;
 
         private int _currentSpriteFrame;
         private float animationSpeed;
         private float timer;
 
         private bool keyPressed;
-        public Player()
+        private bool _canWalk;
+
+        private GameStates.MainGame _mainGame;
+        public Player(GameStates.MainGame mainGame)
         {
+            _mainGame = mainGame;
+            
             spriteHeight = 62;
             spriteWidth = 39;
 
-            _hitBox = new Rectangle(PosX, PosY, spriteWidth, spriteHeight);
+            _hitBox = new Rectangle(PosX, PosY, spriteHeight, spriteHeight*2);
             
             _currentSpriteFrame = 0;
             animationSpeed = 0.5f;
             timer = 0;
+
+            _canWalk = true;
         }
         
         public void LoadContent(ContentManager content)
@@ -53,25 +61,25 @@ namespace MonogameSpel
         {
             keyPressed = false;
             Keyboard.GetState();
-            if (Keyboard.IsPressed(Keys.W) || Keyboard.IsPressed(Keys.Up))
+            if (Keyboard.IsPressed(Keys.W) || Keyboard.IsPressed(Keys.Up) && PosY > 0)
             {
                 keyPressed = true;
                 PosY-=2;
             }
             
-            if (Keyboard.IsPressed(Keys.S) || Keyboard.IsPressed(Keys.Down))
+            if (Keyboard.IsPressed(Keys.S) || Keyboard.IsPressed(Keys.Down) && PosY < (480-spriteHeight*2))
             {
                 keyPressed = true;
                 PosY+=2;
             }
             
-            if (Keyboard.IsPressed(Keys.D) || Keyboard.IsPressed(Keys.Right))
+            if (Keyboard.IsPressed(Keys.D) || Keyboard.IsPressed(Keys.Right) && PosX < (800-spriteWidth*2))
             {
                 keyPressed = true;
                 PosX+=2;
             }
             
-            if (Keyboard.IsPressed(Keys.A) || Keyboard.IsPressed(Keys.Left))
+            if (Keyboard.IsPressed(Keys.A) || Keyboard.IsPressed(Keys.Left) && PosX > 0)
             {
                 keyPressed = true;
                 PosX-=2;
@@ -79,16 +87,18 @@ namespace MonogameSpel
 
             if (Keyboard.HasBeenPressed(Keys.Space))
             {
-                Attack();
-            }
-
-            if (keyPressed)
+                //_currentSpriteFrame = 5;
+                _canWalk = false;
+                Attack(gameTime);
+            } else if (keyPressed && _canWalk)
             {
                 WalkAnimation(gameTime);
             }else 
             {
                 _currentSpriteFrame = 0;
             }
+
+            _hitBox.Location = new Point(PosX, PosY);
         }
         
         public void Draw(SpriteBatch spriteBatch)
@@ -114,9 +124,10 @@ namespace MonogameSpel
             }
         }
 
-        public void Attack()
+        public void Attack(GameTime gameTime)
         {
             
+            _mainGame.PlayerAttack();
         }
     }
 }
