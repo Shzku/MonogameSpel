@@ -31,8 +31,8 @@ namespace MonogameSpel.GameStates
 
         public override void LoadContent(ContentManager content)
         {
-            flowerTexture = content.Load<Texture2D>("Spider_Lily");
-            font = content.Load<SpriteFont>("Font/HorrorImpactBold");
+            flowerTexture = content.Load<Texture2D>("amogus");
+            font = content.Load<SpriteFont>("Font/azukiB");
             menuButtons = content.Load<Texture2D>("Menu_Buttons");
 
             sourceRectangles = new Rectangle[4];
@@ -83,10 +83,10 @@ namespace MonogameSpel.GameStates
         {
             _graphicsDevice.Clear(dBlue);
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin();
             
             spriteBatch.Draw(flowerTexture,  new Rectangle(352,32,448,448), Color.White);
-            spriteBatch.DrawString(font, ", h N m l", new Vector2(70f,40f), Color.MintCream, 0, new Vector2(1f,1f), 2.5f, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(font, "Impostor Syndrome", new Vector2(70f,40f), Color.MintCream, 0, new Vector2(1f,1f), 2.5f, SpriteEffects.None, 0.5f);
             spriteBatch.Draw(menuButtons, new Rectangle(100,190, 255,105), sourceRectangles[buttonSelect],Color.White);
             spriteBatch.Draw(menuButtons, new Rectangle(100,320,255,105), sourceRectangles[buttonSelect + 2], Color.White);
             

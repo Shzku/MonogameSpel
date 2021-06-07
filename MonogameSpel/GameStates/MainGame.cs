@@ -17,6 +17,12 @@ namespace MonogameSpel.GameStates
         private Texture2D pixel;
 
         public GraphicsDevice graphics;
+
+        private int pointCounter;
+
+        private Random rnd;
+
+        private SpriteFont font;
         public MainGame(GraphicsDevice graphicsDevice) : base(graphicsDevice)
         {
             graphics = graphicsDevice;
@@ -26,17 +32,20 @@ namespace MonogameSpel.GameStates
             
             pixel = new Texture2D(graphicsDevice, 1, 1);
             pixel.SetData<Color>(new Color[] { Color.White });
+
+            rnd = new Random();
         }
 
         public override void Initialize()
         {
-            Enemies.Add(new Enemy(10));
-            Enemies.Add(new Enemy(175));
-            Enemies.Add(new Enemy(350));
+            Enemies.Add(new Enemy(10, 600));
+            Enemies.Add(new Enemy(175, 600));
+            Enemies.Add(new Enemy(350, 600));
         }
 
         public override void LoadContent(ContentManager content)
         {
+            font = content.Load<SpriteFont>("Font/azukiB");
             player.LoadContent(content);
             foreach (var enemy in Enemies)
             {
@@ -53,6 +62,12 @@ namespace MonogameSpel.GameStates
             player.Update(gameTime);
             foreach (var enemy in Enemies)
             {
+                if (player._hitBox.Intersects(enemy.Hitbox))
+                {
+                    pointCounter++;
+                    enemy._posX = rnd.Next(700);
+                    enemy._posY = rnd.Next(450);
+                }
                 enemy.Update(gameTime);
             }
         }
@@ -62,7 +77,8 @@ namespace MonogameSpel.GameStates
             _graphicsDevice.Clear(dBlue);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(pixel, player._hitBox, Color.Orange);
+            spriteBatch.DrawString(font, Convert.ToString(pointCounter), new Vector2(0f,0f), Color.MintCream, 0, new Vector2(1f,1f), 2.5f, SpriteEffects.None, 0.5f);
+            //spriteBatch.Draw(pixel, player._hitBox, Color.Orange);
             spriteBatch.End();
 
             foreach (var enemy in Enemies)
