@@ -32,10 +32,10 @@ namespace MonogameSpel
         {
             _mainGame = mainGame;
             
-            spriteHeight = 62;
-            spriteWidth = 39;
+            spriteHeight = 130;
+            spriteWidth = 132;
 
-            _hitBox = new Rectangle(PosX, PosY, spriteHeight, spriteHeight*2);
+            _hitBox = new Rectangle(PosX, PosY, spriteWidth, spriteHeight);
             
             _currentSpriteFrame = 0;
             animationSpeed = 0.5f;
@@ -46,7 +46,7 @@ namespace MonogameSpel
         
         public void LoadContent(ContentManager content)
         {
-            playerSprite = content.Load<Texture2D>("Player");
+            playerSprite = content.Load<Texture2D>("among_us_sprite_sheet");
 
             _sourceRectangles = new Rectangle[6];
             _sourceRectangles[0] = new Rectangle(0, 0, spriteWidth, spriteHeight);
@@ -67,13 +67,13 @@ namespace MonogameSpel
                 PosY-=2;
             }
             
-            if (Keyboard.IsPressed(Keys.S) || Keyboard.IsPressed(Keys.Down) && PosY < (480-spriteHeight*2))
+            if (Keyboard.IsPressed(Keys.S) || Keyboard.IsPressed(Keys.Down) && PosY < (480-spriteHeight))
             {
                 keyPressed = true;
                 PosY+=2;
             }
             
-            if (Keyboard.IsPressed(Keys.D) || Keyboard.IsPressed(Keys.Right) && PosX < (800-spriteWidth*2))
+            if (Keyboard.IsPressed(Keys.D) || Keyboard.IsPressed(Keys.Right) && PosX < (800-spriteWidth))
             {
                 keyPressed = true;
                 PosX+=2;
@@ -89,7 +89,7 @@ namespace MonogameSpel
             {
                 //_currentSpriteFrame = 5;
                 _canWalk = false;
-                Attack(gameTime);
+                //Attack(gameTime);
             } else if (keyPressed && _canWalk)
             {
                 WalkAnimation(gameTime);
@@ -104,7 +104,7 @@ namespace MonogameSpel
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(samplerState: SamplerState.PointWrap);
-            spriteBatch.Draw(playerSprite, new Rectangle(PosX, PosY, spriteWidth*2, spriteHeight*2), _sourceRectangles[_currentSpriteFrame], Color.White);
+            spriteBatch.Draw(playerSprite, new Rectangle(PosX, PosY, spriteWidth, spriteHeight), _sourceRectangles[_currentSpriteFrame], Color.White);
             spriteBatch.End();
         }
 
